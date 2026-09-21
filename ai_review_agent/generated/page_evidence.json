@@ -1,0 +1,98 @@
+{
+  "url": "https://example.com/",
+  "title": "Example Domain",
+  "headings": [
+    "Example Domain"
+  ],
+  "links": [
+    "Learn more"
+  ],
+  "buttons": [],
+  "body_text": "Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more",
+  "dom_candidates": [
+    {
+      "tag": "html",
+      "id": null,
+      "class": "",
+      "text": "Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more",
+      "itemprop": null
+    },
+    {
+      "tag": "head",
+      "id": null,
+      "class": "",
+      "text": "Example Domainbody{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}",
+      "itemprop": null
+    },
+    {
+      "tag": "title",
+      "id": null,
+      "class": "",
+      "text": "Example Domain",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "style",
+      "id": null,
+      "class": "",
+      "text": "body{background:#eee;width:60vw;margin:15vh auto;font-family:system-ui,sans-serif}h1{font-size:1.5em}div{opacity:0.8}a:link,a:visited{color:#348}",
+      "itemprop": null
+    },
+    {
+      "tag": "body",
+      "id": null,
+      "class": "",
+      "text": "Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "",
+      "text": "Example Domain\n\nThis domain is for use in documentation examples without needing permission. Avoid use in operations.\n\nLearn more",
+      "itemprop": null
+    },
+    {
+      "tag": "h1",
+      "id": null,
+      "class": "",
+      "text": "Example Domain",
+      "itemprop": null
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "class": "",
+      "text": "This domain is for use in documentation examples without needing permission. Avoid use in operations.",
+      "itemprop": null
+    },
+    {
+      "tag": "p",
+      "id": null,
+      "class": "",
+      "text": "Learn more",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "",
+      "text": "Learn more",
+      "itemprop": null
+    }
+  ]
+}

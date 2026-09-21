@@ -1,0 +1,738 @@
+{
+  "url": "https://www.web-scraping.dev/reviews",
+  "title": "web-scraping.dev latest product reviews | graphql mock website",
+  "headings": [
+    "Latest Product Reviews"
+  ],
+  "links": [
+    "web-scraping.dev",
+    "Docs ",
+    "API",
+    "Graphql",
+    "Products",
+    "Reviews",
+    "Testimonials",
+    "File Download",
+    "MCP Tools",
+    "login",
+    "",
+    "reviewing policy",
+    "code of conduct",
+    " SCRAPFLY ACADEMY",
+    "API Docs",
+    "Sitemap",
+    "Blog",
+    "GitHub",
+    "ScrapFly"
+  ],
+  "buttons": [
+    "\n          \n        ",
+    "",
+    "",
+    "Load More",
+    " SCRAPFLY ACADEMY"
+  ],
+  "body_text": "web-scraping.dev\nDocs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools\nlogin\n 0\nLatest Product Reviews\nreviewing policy\ncode of conduct\n2023-05-18     \n\nUnique flavor and great energy boost. It's the perfect gamer's drink!\n\n2023-05-17     \n\nGood flavor and keeps me energized. The bottle design is really fun.\n\n2023-05-16    \n\nExcellent energy drink for gamers. The tropical flavor is refreshing.\n\n2023-05-15     \n\nIt’s fun, tastes good, and the energy boost is helpful during intense gaming sessions.\n\n2023-05-15     \n\nThe best sneakers I've bought in a long time. Stylish, comfortable and the leather quality is top-notch.\n\n2023-05-12     \n\nThe cherry cola flavor is a win. Keeps me energized and focused.\n\n2023-05-10     \n\nThese shoes are a hit with my twins. They love the lights and they seem to be quite durable.\n\n2023-05-01     \n\nExcellent boots for outdoor adventures. They offer great support and are very comfortable.\n\n2023-05-01    \n\nNice design and good quality, but a bit too tight for me. Otherwise, it's a pretty cool beanie.\n\n2023-04-25     \n\nReally enjoyed the citrus flavor and the energy boost it gives.\n\n2023-04-25   \n\nGreat concept, but the sizing is a bit off. Order a size larger.\n\n2023-04-18     \n\nDelicious chocolates, and the box is pretty substantial. It'd make a nice gift.\n\n2023-04-12    \n\nThe boots are durable, but the laces could be better quality.\n\n2023-04-11     \n\nThis potion is a game changer. Love the energy boost and the flavor.\n\n2023-04-10     \n\nLight, comfortable, and nice design. I'm buying another pair.\n\n2023-04-10     \n\nHighly recommend! These shoes are great for evening walks. Kids love them!\n\n2023-04-09    \n\nIt's like a health potion for gamers! The energy boost is spot on.\n\n2023-04-07     \n\nReally helps me focus during intense gaming marathons. The teal color is a nice touch.\n\n2023-04-07   \n\nThe shoes are nice but they didn't fit me well. I had to exchange for a larger size.\n\n2023-04-05     \n\nGreat taste, and the energy kick is awesome. Feels just like a strength potion.\n\nLoad More\n SCRAPFLY ACADEMY\nAPI Docs\nSitemap\nBlog\nGitHub\nv1.3.0\nmade by ScrapFly ",
+  "dom_candidates": [
+    {
+      "tag": "html",
+      "id": null,
+      "class": "",
+      "text": "web-scraping.dev\nDocs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools\nlogin\n 0\nLatest Product Reviews\nreviewing policy\ncode of conduct\n SCRAPFLY ACADEMY\nAPI Docs\nSitemap\nBlog\nGitHub\nv1.3.0\nmade by ScrapFly",
+      "itemprop": null
+    },
+    {
+      "tag": "head",
+      "id": null,
+      "class": "",
+      "text": "web-scraping.dev latest product reviews | graphql mock website\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nquery GetReviews($first: Int, $after: String) {\n  reviews(first: $first, after: $after) {\n    edges {\n      node {\n        rid\n        text\n        rating\n        date\n      }\n      cursor\n    }\n ",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "title",
+      "id": null,
+      "class": "",
+      "text": "web-scraping.dev latest product reviews | graphql mock website",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "link",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "meta",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": "reviewsGQL",
+      "class": "",
+      "text": "query GetReviews($first: Int, $after: String) {\n  reviews(first: $first, after: $after) {\n    edges {\n      node {\n        rid\n        text\n        rating\n        date\n      }\n      cursor\n    }\n    pageInfo {\n      startCursor\n      endCursor\n      hasPreviousPage\n      hasNextPage\n    }\n  }\n}",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": "review-template",
+      "class": "",
+      "text": "<div class=\"review\" data-review-id=\"{{review['rid']}}\" data-testid=\"review\">\n  <span data-testid=\"review-date\">{{review['date']}}</span>\n  <span data-testid=\"review-stars\">\n  {% for i in range(review['rating']) %}\n  <svg width=\"20px\" height=\"20px\" viewBox=\"0 0 64 64\" role=\"img\"><path d=\"M62 25.2H39.",
+      "itemprop": null
+    },
+    {
+      "tag": "script",
+      "id": null,
+      "class": "",
+      "text": "async function loadPage(first) {\n  const root = document.getElementById('latest-reviews');\n  const spinner = document.getElementById('page-spinner');\n  const loadMore = document.getElementById('page-load-more');\n  spinner.classList.remove('d-none');\n  loadMore.classList.add('d-none');\n\n  const lastC",
+      "itemprop": null
+    },
+    {
+      "tag": "body",
+      "id": null,
+      "class": "",
+      "text": "web-scraping.dev\nDocs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools\nlogin\n 0\nLatest Product Reviews\nreviewing policy\ncode of conduct\n SCRAPFLY ACADEMY\nAPI Docs\nSitemap\nBlog\nGitHub\nv1.3.0\nmade by ScrapFly",
+      "itemprop": null
+    },
+    {
+      "tag": "nav",
+      "id": null,
+      "class": "navbar navbar-expand-lg navbar-light",
+      "text": "web-scraping.dev\nDocs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools\nlogin\n 0",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "container-fluid",
+      "text": "web-scraping.dev\nDocs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools\nlogin\n 0",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "navbar-brand",
+      "text": "web-scraping.dev",
+      "itemprop": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "class": "navbar-toggler",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "span",
+      "id": null,
+      "class": "navbar-toggler-icon",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": "navbarContent",
+      "class": "collapse navbar-collapse",
+      "text": "Docs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools\nlogin\n 0",
+      "itemprop": null
+    },
+    {
+      "tag": "ul",
+      "id": null,
+      "class": "navbar-nav me-auto mb-2 mb-lg-0",
+      "text": "Docs \nProducts\nReviews\nTestimonials\nFile Download\nMCP Tools",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item dropdown",
+      "text": "Docs",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": "headersDropdown",
+      "class": "nav-link dropdown-toggle text-center",
+      "text": "Docs",
+      "itemprop": null
+    },
+    {
+      "tag": "ul",
+      "id": null,
+      "class": "dropdown-menu",
+      "text": "API\n                Graphql",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "",
+      "text": "API",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "dropdown-item",
+      "text": "API",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "",
+      "text": "Graphql",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "dropdown-item",
+      "text": "Graphql",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item",
+      "text": "Products",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "nav-link",
+      "text": "Products",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item",
+      "text": "Reviews",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "nav-link",
+      "text": "Reviews",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item",
+      "text": "Testimonials",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "nav-link",
+      "text": "Testimonials",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item",
+      "text": "File Download",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "nav-link",
+      "text": "File Download",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item",
+      "text": "MCP Tools",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "nav-link",
+      "text": "MCP Tools",
+      "itemprop": null
+    },
+    {
+      "tag": "ul",
+      "id": null,
+      "class": "navbar-nav mb-2 mb-lg-0",
+      "text": "login\n 0",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item",
+      "text": "login",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "nav-link",
+      "text": "login",
+      "itemprop": null
+    },
+    {
+      "tag": "li",
+      "id": null,
+      "class": "nav-item cart-preview",
+      "text": "0",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "cart-icon",
+      "text": "0",
+      "itemprop": null
+    },
+    {
+      "tag": "svg",
+      "id": null,
+      "class": null,
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "path",
+      "id": null,
+      "class": null,
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "sup",
+      "id": null,
+      "class": "cart-count",
+      "text": "0",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "cart-data",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "cart-items",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "cart-meta",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "cart-control",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "class": "btn btn-primary btn-rounded cart-clear btn-danger",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "button",
+      "id": null,
+      "class": "btn btn-primary btn-rounded cart-continue btn-success",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "main",
+      "text": "Latest Product Reviews\nreviewing policy\ncode of conduct",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "container",
+      "text": "Latest Product Reviews\nreviewing policy\ncode of conduct",
+      "itemprop": null
+    },
+    {
+      "tag": "h1",
+      "id": null,
+      "class": "",
+      "text": "Latest Product Reviews",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "d-flex justify-content-center gap-3",
+      "text": "reviewing policy\ncode of conduct",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "text-muted small",
+      "text": "reviewing policy",
+      "itemprop": null
+    },
+    {
+      "tag": "a",
+      "id": null,
+      "class": "text-muted small",
+      "text": "code of conduct",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "container mt-5",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": "latest-reviews",
+      "class": "",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": "meta",
+      "class": "mt-5 d-flex flex-column align-items-center",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": "page-spinner",
+      "class": "spinner-border mb-3",
+      "text": "",
+      "itemprop": null
+    },
+    {
+      "tag": "button",
+      "id": "page-load-more",
+      "class": "d-block btn btn-primary d-none",
+      "text": "Load More",
+      "itemprop": null
+    },
+    {
+      "tag": "div",
+      "id": null,
+      "class": "container",
+      "text": "SCRAPFLY ACADEMY\nAPI Docs\nSitemap\nBlog\nGitHub\nv1.3.0\nmade by ScrapFly",
+      "itemprop": null
+    }
+  ]
+}

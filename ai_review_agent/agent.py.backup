@@ -1,0 +1,861 @@
+import json
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+
+# =========================================================
+# Prime Agent RPC Client
+# =========================================================
+
+class PrimeAgentClient:
+
+    def __init__(self):
+
+        self.process = subprocess.Popen(
+            [
+                "bash",
+                "./../prime-agent.sh",
+
+                "--mode", "rpc",
+                "--no-session",
+
+                "--provider", "groq",
+                "--model", "openai/gpt-oss-120b",
+                
+                # Keep reasoning controlled because Groq currently
+                # has an 8K TPM limit.
+                "--thinking", "low",
+
+                "--no-context-files",
+                "--no-prompt-templates",
+
+                "--tools", "ipython,edit",
+                "--autonomous-max-tokens", "20000",
+                "--autonomous-max-turns", "6",
+            ],
+
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+
+            # Show Prime Agent errors in our terminal.
+            stderr=None,
+
+            text=True,
+            bufsize=1,
+        )
+
+        # Prime Agent RPC supports automatic retry for transient
+        # provider errors such as 429 rate limits.
+        self._send_command({
+            "type": "set_auto_retry",
+            "enabled": True,
+        })
+
+    # -----------------------------------------------------
+    # Low-level RPC command
+    # -----------------------------------------------------
+
+    def _send_command(self, command):
+
+        if self.process.poll() is not None:
+            raise RuntimeError(
+                "Prime Agent process is no longer running."
+            )
+
+        self.process.stdin.write(
+            json.dumps(command) + "\n"
+        )
+
+        self.process.stdin.flush()
+
+    # -----------------------------------------------------
+    # Send prompt
+    # -----------------------------------------------------
+
+    def send_prompt(self, message):
+
+        request = {
+            "id": "review-agent-request",
+            "type": "prompt",
+            "message": message,
+        }
+
+        print()
+        print(
+            "[RPC] Sending task to Prime Agent...",
+            flush=True,
+        )
+
+        self._send_command(request)
+
+        events = []
+
+        import time
+        for line in self.process.stdout:
+
+            line = line.strip()
+
+            if not line:
+                continue
+
+            try:
+                event = json.loads(line)
+
+            except json.JSONDecodeError:
+                continue
+
+            events.append(event)
+
+            event_type = event.get("type")
+
+            # -------------------------------------------------
+            # Agent lifecycle
+            # -------------------------------------------------
+
+            if event_type == "agent_start":
+
+                print(
+                    "[AGENT] Started",
+                    flush=True,
+                )
+
+            elif event_type == "agent_end":
+
+                print(
+                    "[AGENT] Finished",
+                    flush=True,
+                )
+
+                break
+
+            # -------------------------------------------------
+            # Turn lifecycle
+            # -------------------------------------------------
+
+            elif event_type == "turn_start":
+
+                print(
+                    "[TURN] Started",
+                    flush=True,
+                )
+
+            elif event_type == "turn_end":
+
+                message_data = event.get(
+                    "message",
+                    {},
+                )
+
+                stop_reason = message_data.get(
+                    "stopReason"
+                )
+
+                if stop_reason == "error":
+
+                    error_message = message_data.get(
+                        "errorMessage",
+                        "",
+                    )
+
+                    print(
+                        f"[TURN] Error: {error_message}",
+                        flush=True,
+                    )
+
+                else:
+
+                    print(
+                        "[TURN] Finished",
+                        flush=True,
+                    )
+
+            # -------------------------------------------------
+            # Assistant streaming
+            # -------------------------------------------------
+
+            elif event_type == "message_update":
+
+                assistant_event = event.get(
+                    "assistantMessageEvent",
+                    {},
+                )
+
+                message_type = assistant_event.get(
+                    "type"
+                )
+
+                if message_type == "text_delta":
+
+                    delta = assistant_event.get(
+                        "delta",
+                        "",
+                    )
+
+                    if delta:
+
+                        print(
+                            delta,
+                            end="",
+                            flush=True,
+                        )
+
+                elif message_type == "thinking_delta":
+
+                    delta = assistant_event.get(
+                        "delta",
+                        "",
+                    )
+
+                    if delta:
+
+                        print(
+                            f"\n[THINKING] {delta}",
+                            end="",
+                            flush=True,
+                        )
+
+            # -------------------------------------------------
+            # Tool started
+            # -------------------------------------------------
+
+            elif event_type == "tool_execution_start":
+
+                tool_name = event.get(
+                    "toolName",
+                    "unknown",
+                )
+
+                print(
+                    f"\n[TOOL START] {tool_name}",
+                    flush=True,
+                )
+
+            # -------------------------------------------------
+            # Tool progress
+            # -------------------------------------------------
+
+            elif event_type == "tool_execution_update":
+
+                tool_name = event.get(
+                    "toolName",
+                    "unknown",
+                )
+
+                print(
+                    f"[TOOL UPDATE] {tool_name}",
+                    flush=True,
+                )
+
+            # -------------------------------------------------
+            # Tool finished
+            # -------------------------------------------------
+
+            elif event_type == "tool_execution_end":
+
+                tool_name = event.get(
+                    "toolName",
+                    "unknown",
+                )
+
+                is_error = event.get(
+                    "isError",
+                    False,
+                )
+
+                print(
+                    f"[TOOL END] {tool_name} "
+                    f"ERROR={is_error}",
+                    flush=True,
+                )
+
+                # Print compact tool output.
+                result = event.get(
+                    "result",
+                    {},
+                )
+
+                content = result.get(
+                    "content",
+                    [],
+                )
+
+                for item in content:
+
+                    if item.get("type") == "text":
+
+                        text = item.get(
+                            "text",
+                            "",
+                        )
+
+                        if text:
+
+                            print(
+                                "[TOOL RESULT]",
+                                text[:4000],
+                                flush=True,
+                            )
+
+            # -------------------------------------------------
+            # Automatic retry
+            # -------------------------------------------------
+
+            elif event_type == "auto_retry_start":
+
+                delay_ms = event.get(
+                    "delayMs",
+                    0,
+                )
+
+                attempt = event.get(
+                    "attempt",
+                    "?",
+                )
+
+                print(
+                    f"\n[RETRY] Attempt {attempt}; "
+                    f"waiting {delay_ms} ms...",
+                    flush=True,
+                )
+
+            elif event_type == "auto_retry_end":
+
+                success = event.get(
+                    "success",
+                    False,
+                )
+
+                print(
+                    f"[RETRY] Finished "
+                    f"success={success}",
+                    flush=True,
+                )
+
+            # -------------------------------------------------
+            # Extension errors
+            # -------------------------------------------------
+
+            elif event_type == "extension_error":
+
+                print(
+                    "\n[EXTENSION ERROR]",
+                    event,
+                    flush=True,
+                )
+
+        return events
+
+    # -----------------------------------------------------
+    # Extract final assistant text
+    # -----------------------------------------------------
+
+    def get_text(self, events):
+
+        output = []
+
+        for event in events:
+
+            if event.get("type") != "message_update":
+                continue
+
+            assistant_event = event.get(
+                "assistantMessageEvent",
+                {},
+            )
+
+            if assistant_event.get("type") == "text_delta":
+
+                output.append(
+                    assistant_event.get(
+                        "delta",
+                        "",
+                    )
+                )
+
+        return "".join(output)
+
+    # -----------------------------------------------------
+    # Close
+    # -----------------------------------------------------
+
+    def close(self):
+
+        if self.process.poll() is not None:
+            return
+
+        try:
+
+            if self.process.stdin:
+                self.process.stdin.close()
+
+        except (BrokenPipeError, OSError):
+            pass
+
+        try:
+
+            self.process.wait(
+                timeout=5
+            )
+
+        except subprocess.TimeoutExpired:
+
+            self.process.terminate()
+
+            try:
+
+                self.process.wait(
+                    timeout=2
+                )
+
+            except subprocess.TimeoutExpired:
+
+                self.process.kill()
+                self.process.wait()
+
+
+# =========================================================
+# AI Review Scraper Agent
+# =========================================================
+
+class AIReviewAgent:
+
+    def __init__(self):
+
+        self.prime = PrimeAgentClient()
+
+        self.project_root = (
+            Path(__file__).resolve().parent
+        )
+
+        self.generated_dir = (
+            self.project_root / "generated"
+        )
+
+        self.output_dir = (
+            self.project_root / "output"
+        )
+
+        self.generated_dir.mkdir(
+            exist_ok=True
+        )
+
+        self.output_dir.mkdir(
+            exist_ok=True
+        )
+
+    # -----------------------------------------------------
+    # Autonomous scraping
+    # -----------------------------------------------------
+
+    def scrape(self, url):
+
+        generated_file = (
+            self.generated_dir /
+            "review_scraper.py"
+        )
+
+        output_file = (
+            self.output_dir /
+            "reviews.json"
+        )
+
+        # Remove stale results from a previous run.
+        if generated_file.exists():
+            generated_file.unlink()
+
+        if output_file.exists():
+            output_file.unlink()
+
+        prompt = f"""
+You are an autonomous website-specific review scraping agent.
+
+TARGET URL:
+{url}
+
+Your objective is to produce:
+
+{generated_file}
+
+and:
+
+{output_file}
+
+The user provides ONLY the URL.
+You must figure out the website's review structure yourself.
+
+============================================================
+RUNTIME RULES
+============================================================
+
+You have the IPython tool.
+
+The IPython kernel already has a running asyncio event loop.
+
+Therefore:
+
+- use playwright.async_api
+- use top-level await
+- NEVER use asyncio.run()
+- NEVER use playwright.sync_api
+- use Chromium headless
+- close browsers after use
+
+============================================================
+MANDATORY WORKFLOW
+============================================================
+
+You MUST actually use IPython.
+
+FIRST:
+
+Open the target URL with Playwright.
+
+After navigation inspect the REAL DOM.
+
+Do not guess.
+
+Determine:
+
+- final URL
+- page title
+- review containers
+- author
+- rating
+- review text
+- date
+- pagination
+- Load More controls
+- infinite scrolling
+- dynamically loaded reviews
+- relevant data attributes
+- relevant aria attributes
+- SVG/icon-based ratings if present
+
+Use actual DOM evidence.
+
+============================================================
+THEN GENERATE THE SCRAPER
+============================================================
+
+Create:
+
+generated/review_scraper.py
+
+The generated scraper must:
+
+1. Accept the target URL.
+2. Use async Playwright.
+3. Navigate to the target site.
+4. Wait for the actual review content.
+5. Extract reviews using selectors discovered from THIS website.
+6. Handle additional review loading when applicable.
+7. Extract these fields:
+
+   {{
+       "author": "...",
+       "rating": 5,
+       "review_text": "...",
+       "date": "..."
+   }}
+
+8. Save a JSON array to:
+
+output/reviews.json
+
+Do not invent review data.
+
+Use null when a field genuinely does not exist.
+
+============================================================
+VALIDATION
+============================================================
+
+After creating the scraper:
+
+EXECUTE IT.
+
+Then inspect:
+
+output/reviews.json
+
+Verify:
+
+- the file exists
+- it is valid JSON
+- the top level is a list
+- reviews were actually extracted
+- review_text values contain real page content
+- selectors are actually working
+
+If the scraper fails or produces zero reviews:
+
+1. inspect the page again
+2. determine why
+3. repair generated/review_scraper.py
+4. execute it again
+5. validate again
+
+Do not stop merely because the scraper file was created.
+
+The task is complete ONLY when:
+
+generated/review_scraper.py exists
+
+AND
+
+output/reviews.json exists
+
+AND
+
+output/reviews.json is valid JSON containing the site's actual reviews.
+
+Do not ask the user for selectors.
+
+Do not explain what you would do instead of doing it.
+
+Do not use generic hardcoded review selectors.
+
+Start by using IPython now.
+"""
+
+        return self.prime.send_prompt(
+            prompt
+        )
+
+    # -----------------------------------------------------
+    # Close
+    # -----------------------------------------------------
+
+    def close(self):
+
+        self.prime.close()
+
+
+# =========================================================
+# Validation
+# =========================================================
+
+def validate_output(project_root):
+
+    generated_file = (
+        project_root /
+        "generated" /
+        "review_scraper.py"
+    )
+
+    output_file = (
+        project_root /
+        "output" /
+        "reviews.json"
+    )
+
+    print()
+    print("=" * 50)
+    print("              CHECKING RESULT")
+    print("=" * 50)
+
+    # -----------------------------------------------------
+    # Generated scraper
+    # -----------------------------------------------------
+
+    print()
+
+    if generated_file.exists():
+
+        print(
+            "Ã¢Å“â€œ Generated scraper found:"
+        )
+
+        print(
+            generated_file
+        )
+
+    else:
+
+        print(
+            "Ã¢Å“â€” Generated scraper NOT found"
+        )
+
+    # -----------------------------------------------------
+    # JSON output
+    # -----------------------------------------------------
+
+    print()
+
+    if not output_file.exists():
+
+        print(
+            "Ã¢Å“â€” output/reviews.json NOT found"
+        )
+
+        return False
+
+    print(
+        "Ã¢Å“â€œ Review output found:"
+    )
+
+    print(
+        output_file
+    )
+
+    try:
+
+        with open(
+            output_file,
+            "r",
+            encoding="utf-8",
+        ) as f:
+
+            data = json.load(f)
+
+    except Exception as e:
+
+        print(
+            "Ã¢Å“â€” Could not parse reviews.json:"
+        )
+
+        print(e)
+
+        return False
+
+    if not isinstance(data, list):
+
+        print(
+            "Ã¢Å“â€” reviews.json top level "
+            "must be a JSON list"
+        )
+
+        return False
+
+    print()
+
+    print(
+        f"Ã¢Å“â€œ Reviews extracted: {len(data)}"
+    )
+
+    if len(data) == 0:
+
+        print(
+            "Ã¢Å¡Â  JSON is valid but contains "
+            "zero reviews"
+        )
+
+        return False
+
+    # -----------------------------------------------------
+    # Basic schema validation
+    # -----------------------------------------------------
+
+    required_fields = {
+        "author",
+        "rating",
+        "review_text",
+        "date",
+    }
+
+    valid_count = 0
+
+    for review in data:
+
+        if not isinstance(review, dict):
+            continue
+
+        if required_fields.intersection(
+            review.keys()
+        ):
+
+            valid_count += 1
+
+    if valid_count == 0:
+
+        print(
+            "Ã¢Å“â€” No review objects contain "
+            "expected fields"
+        )
+
+        return False
+
+    print(
+        f"Ã¢Å“â€œ Review objects validated: "
+        f"{valid_count}/{len(data)}"
+    )
+
+    return True
+
+
+# =========================================================
+# CLI
+# =========================================================
+
+def main():
+
+    if len(sys.argv) != 2:
+
+        print(
+            "Usage:"
+        )
+
+        print(
+            "python agent.py <url>"
+        )
+
+        sys.exit(1)
+
+    url = sys.argv[1]
+
+    print()
+    print("=" * 50)
+    print("        AI REVIEW SCRAPER AGENT")
+    print("=" * 50)
+
+    print()
+    print("Target:")
+    print(url)
+
+    print()
+    print("Starting autonomous scraping...")
+
+    agent = AIReviewAgent()
+
+    project_root = (
+        Path(__file__).resolve().parent
+    )
+
+    try:
+
+        events = agent.scrape(url)
+
+        success = validate_output(
+            project_root
+        )
+
+        print()
+
+        if success:
+
+            print(
+                "Ã¢Å“â€œ SCRAPING COMPLETED SUCCESSFULLY"
+            )
+
+        else:
+
+            print(
+                "Ã¢Å“â€” SCRAPING DID NOT PRODUCE "
+                "A VALID RESULT"
+            )
+
+        print()
+        print("=" * 50)
+
+        if not success:
+            sys.exit(2)
+
+    finally:
+
+        agent.close()
+
+
+if __name__ == "__main__":
+    main()
